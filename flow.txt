@@ -1,0 +1,36 @@
+Developer
+     │
+     ▼
+GitHub Repository
+     │
+     ▼
+Jenkins Pipeline
+     │
+     ├── Build Application
+     ├── SonarQube Scan
+     ├── OWASP Dependency Check
+     ├── Trivy Image Scan
+     ├── Build Docker Image
+     └── Push Image to Docker Hub
+                    │
+                    ▼
+            GitOps Repository
+                    │
+                    ▼
+                 ArgoCD
+                    │
+                    ▼
+          Kind Kubernetes Cluster
+                    │
+     ┌──────────────┼──────────────┐
+     ▼              ▼              ▼
+Frontend        Backend      MongoDB + Redis
+                    │
+                    ▼
+              Persistent Volume
+                    │
+                    ▼
+             Prometheus Monitoring
+                    │
+                    ▼
+            Grafana Dashboards
