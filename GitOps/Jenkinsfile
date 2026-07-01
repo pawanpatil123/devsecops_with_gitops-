@@ -184,22 +184,18 @@ pipeline {
     // }
 
 post {
-
     success {
-        emailext(
+        mail(
             to: 'piyushpatil1252@gmail.com',
-            recipientProviders: [requestor()],
             subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            mimeType: 'text/plain',
-            attachLog: true,
             body: """
 Build Status : SUCCESS
 
-Project      : ${env.JOB_NAME}
+Project : ${env.JOB_NAME}
 Build Number : ${env.BUILD_NUMBER}
 
 Frontend Tag : ${params.FRONTEND_DOCKER_TAG}
-Backend Tag  : ${params.BACKEND_DOCKER_TAG}
+Backend Tag : ${params.BACKEND_DOCKER_TAG}
 
 Build URL:
 ${env.BUILD_URL}
@@ -208,28 +204,19 @@ ${env.BUILD_URL}
     }
 
     failure {
-        emailext(
+        mail(
             to: 'piyushpatil1252@gmail.com',
-            recipientProviders: [requestor()],
             subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-            mimeType: 'text/plain',
-            attachLog: true,
             body: """
 Build Status : FAILED
 
-Project      : ${env.JOB_NAME}
+Project : ${env.JOB_NAME}
 Build Number : ${env.BUILD_NUMBER}
 
 Build URL:
 ${env.BUILD_URL}
-
-Please check the attached console log.
 """
         )
-    }
-
-    always {
-        echo "Pipeline Finished."
     }
 }
 
