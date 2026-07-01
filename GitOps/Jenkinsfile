@@ -104,7 +104,7 @@ pipeline {
             emailext(
                 attachLog: true,
                 from: 'piyushpatil44099@gmail.com',
-                to: 'piyushpatil44099@gmail.com',
+                to: 'piyushpatil1252@gmail.com',
                 mimeType: 'text/html',
                 subject: "SUCCESS : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
@@ -149,7 +149,7 @@ pipeline {
             emailext(
                 attachLog: true,
                 from: 'piyushpatil44099@gmail.com',
-                to: 'piyushpatil44099@gmail.com',
+                to: 'piyushpatil1252@gmail.com',
                 mimeType: 'text/html',
                 subject: "FAILED : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """
