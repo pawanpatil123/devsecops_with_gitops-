@@ -98,88 +98,139 @@ pipeline {
         }
     }
 
-    post {
+    // post {
 
-        success {
-            emailext(
-                attachLog: true,
-                from: 'piyushpatil44099@gmail.com',
-                to: 'piyushpatil1252@gmail.com',
-                mimeType: 'text/html',
-                subject: "SUCCESS : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                <html>
-                <body>
-                <h2 style="color:green;">Deployment Successful</h2>
+    //     success {
+    //         emailext(
+    //             attachLog: true,
+    //             from: 'piyushpatil44099@gmail.com',
+    //             to: 'piyushpatil1252@gmail.com',
+    //             mimeType: 'text/html',
+    //             subject: "SUCCESS : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+    //             body: """
+    //             <html>
+    //             <body>
+    //             <h2 style="color:green;">Deployment Successful</h2>
 
-                <table border="1" cellpadding="8">
-                    <tr>
-                        <th>Project</th>
-                        <td>${env.JOB_NAME}</td>
-                    </tr>
+    //             <table border="1" cellpadding="8">
+    //                 <tr>
+    //                     <th>Project</th>
+    //                     <td>${env.JOB_NAME}</td>
+    //                 </tr>
 
-                    <tr>
-                        <th>Build Number</th>
-                        <td>${env.BUILD_NUMBER}</td>
-                    </tr>
+    //                 <tr>
+    //                     <th>Build Number</th>
+    //                     <td>${env.BUILD_NUMBER}</td>
+    //                 </tr>
 
-                    <tr>
-                        <th>Frontend Tag</th>
-                        <td>${params.FRONTEND_DOCKER_TAG}</td>
-                    </tr>
+    //                 <tr>
+    //                     <th>Frontend Tag</th>
+    //                     <td>${params.FRONTEND_DOCKER_TAG}</td>
+    //                 </tr>
 
-                    <tr>
-                        <th>Backend Tag</th>
-                        <td>${params.BACKEND_DOCKER_TAG}</td>
-                    </tr>
+    //                 <tr>
+    //                     <th>Backend Tag</th>
+    //                     <td>${params.BACKEND_DOCKER_TAG}</td>
+    //                 </tr>
 
-                    <tr>
-                        <th>Build URL</th>
-                        <td>${env.BUILD_URL}</td>
-                    </tr>
-                </table>
+    //                 <tr>
+    //                     <th>Build URL</th>
+    //                     <td>${env.BUILD_URL}</td>
+    //                 </tr>
+    //             </table>
 
-                </body>
-                </html>
-                """
-            )
-        }
+    //             </body>
+    //             </html>
+    //             """
+    //         )
+    //     }
 
-        failure {
-            emailext(
-                attachLog: true,
-                from: 'piyushpatil44099@gmail.com',
-                to: 'piyushpatil1252@gmail.com',
-                mimeType: 'text/html',
-                subject: "FAILED : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                <html>
-                <body>
+    //     failure {
+    //         emailext(
+    //             attachLog: true,
+    //             from: 'piyushpatil44099@gmail.com',
+    //             to: 'piyushpatil1252@gmail.com',
+    //             mimeType: 'text/html',
+    //             subject: "FAILED : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+    //             body: """
+    //             <html>
+    //             <body>
 
-                <h2 style="color:red;">Deployment Failed</h2>
+    //             <h2 style="color:red;">Deployment Failed</h2>
 
-                <table border="1" cellpadding="8">
-                    <tr>
-                        <th>Project</th>
-                        <td>${env.JOB_NAME}</td>
-                    </tr>
+    //             <table border="1" cellpadding="8">
+    //                 <tr>
+    //                     <th>Project</th>
+    //                     <td>${env.JOB_NAME}</td>
+    //                 </tr>
 
-                    <tr>
-                        <th>Build Number</th>
-                        <td>${env.BUILD_NUMBER}</td>
-                    </tr>
+    //                 <tr>
+    //                     <th>Build Number</th>
+    //                     <td>${env.BUILD_NUMBER}</td>
+    //                 </tr>
 
-                    <tr>
-                        <th>Build URL</th>
-                        <td>${env.BUILD_URL}</td>
-                    </tr>
+    //                 <tr>
+    //                     <th>Build URL</th>
+    //                     <td>${env.BUILD_URL}</td>
+    //                 </tr>
 
-                </table>
+    //             </table>
 
-                </body>
-                </html>
-                """
-            )
-        }
+    //             </body>
+    //             </html>
+    //             """
+    //         )
+    //     }
+    // }
+
+post {
+
+    success {
+        emailext(
+            to: 'piyushpatil1252@gmail.com',
+            recipientProviders: [requestor()],
+            subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            mimeType: 'text/plain',
+            attachLog: true,
+            body: """
+Build Status : SUCCESS
+
+Project      : ${env.JOB_NAME}
+Build Number : ${env.BUILD_NUMBER}
+
+Frontend Tag : ${params.FRONTEND_DOCKER_TAG}
+Backend Tag  : ${params.BACKEND_DOCKER_TAG}
+
+Build URL:
+${env.BUILD_URL}
+"""
+        )
     }
+
+    failure {
+        emailext(
+            to: 'piyushpatil1252@gmail.com',
+            recipientProviders: [requestor()],
+            subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            mimeType: 'text/plain',
+            attachLog: true,
+            body: """
+Build Status : FAILED
+
+Project      : ${env.JOB_NAME}
+Build Number : ${env.BUILD_NUMBER}
+
+Build URL:
+${env.BUILD_URL}
+
+Please check the attached console log.
+"""
+        )
+    }
+
+    always {
+        echo "Pipeline Finished."
+    }
+}
+
 }
