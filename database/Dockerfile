@@ -1,7 +1,13 @@
-FROM mongo
+# FROM mongo
 
-WORKDIR mongo
+# WORKDIR mongo
 
-COPY .  .
+# COPY .  .
 
-ENTRYPOINT ["mongod"]
+# ENTRYPOINT ["mongod"]
+
+FROM mongo:7.0
+
+EXPOSE 27017
+
+CMD ["mongod", "--bind_ip_all"]

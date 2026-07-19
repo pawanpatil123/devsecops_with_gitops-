@@ -37,7 +37,7 @@ spec:
           value: "8080"
 
         - name: FRONTEND_URL
-          value: "http://frontend-service:5173"
+          value: "http://localhost:31000"
 
         - name: ACCESS_COOKIE_MAXAGE
           value: "120000"
@@ -55,7 +55,7 @@ spec:
           value: "70dd8b38486eee723ce2505f6db06f1ee503fde5eb06fc0"
 
         - name: NODE_ENV
-          value: "Development"
+          value: "production"
 
 ---
 apiVersion: v1
