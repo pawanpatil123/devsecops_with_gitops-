@@ -148,29 +148,20 @@ pipeline {
 
 post {
 
-    always {
-
-        publishHTML([
-            allowMissing: true,
-            alwaysLinkToLastBuild: true,
-            keepAll: true,
-            reportDir: 'dependency-check-report',
-            reportFiles: 'dependency-check-report.html',
-            reportName: 'OWASP Dependency Check Report'
-        ])
-
-        archiveArtifacts(
-            artifacts: 'dependency-check-report/*',
-            fingerprint: true
-        )
-    }
-
     success {
 
         build job: "Wanderlust-CD", parameters: [
             string(name: 'FRONTEND_DOCKER_TAG', value: params.FRONTEND_DOCKER_TAG),
             string(name: 'BACKEND_DOCKER_TAG', value: params.BACKEND_DOCKER_TAG)
         ]
+    }
+
+    failure {
+        echo "CI Pipeline Failed!"
+    }
+
+    always {
+        cleanWs()
     }
 }
 
