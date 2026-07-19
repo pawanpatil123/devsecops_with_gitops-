@@ -44,6 +44,15 @@ pipeline {
                 }
             }
         }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    dir('backend') {
+                        sh 'npm install'
+                    }
+                }
+            }
+        }
 
         stage("OWASP: Dependency check"){
             steps{
